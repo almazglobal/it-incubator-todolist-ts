@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from "./TodoList";
+import {AddItemForm} from "./AddItemForm";
 
 export type ValueFilterType = 'all' | 'active' | 'completed'
 type TodoListType = {
@@ -18,13 +19,36 @@ export function App() {
     const todoListId2 = v1()
 
     const [todoLists, setTodoLists] = useState<TodoListType[]>([
-        {id: todoListId1, title: "What to learn", filter: 'active'},
-        {id: todoListId2, title: "What to buy", filter: 'completed'},
+        {id: todoListId1, title: "What to learn", filter: 'all'},
+        {id: todoListId2, title: "What to buy", filter: 'all'},
     ])
+
+    const addItem = (title: string) => {
+        const id = v1()
+        setTodoLists([...todoLists, {id, title, filter: 'all'}])
+        setTasks({...tasks, [id]: []})
+    }
 
     function removeTask(id: string, todoListId: string) {
         let filteredTasks = tasks[todoListId].filter(item => item.id !== id)
         setTasks({...tasks, [todoListId]: filteredTasks})
+    }
+
+    function changeText(text: string, todoListId: string, taskId: string) {
+        const task = tasks[todoListId].find((todo => todo.id === taskId))
+        if (task) {
+            task.title = text
+            setTodoLists([...todoLists])
+        }
+
+    }
+
+    function changeTextTodoList(text: string, todoListId: string) {
+        const todoList = todoLists.find((todo => todo.id === todoListId))
+        if (todoList) {
+            todoList.title = text
+            setTodoLists([...todoLists])
+        }
 
     }
 
@@ -73,7 +97,7 @@ export function App() {
 
     return (
         <div className="App">
-
+            <AddItemForm AddItem={addItem} />
             {todoLists.map(todo => {
 
                 let taskTodoList = tasks[todo.id]
@@ -96,6 +120,8 @@ export function App() {
                         onCheckedTask={onCheckedTask}
                         valueFilter={todo.filter}
                         removeTaskHandler={removeTaskHandler}
+                        changeText={changeText}
+                        changeTextTodoList={changeTextTodoList}
                     />
                 )
             })
