@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
+import {TextField} from "@material-ui/core";
 
 type EditableSpanPropsType = {
     title: string
@@ -19,7 +20,7 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
         props.changeText(text)
     }
     return editable
-        ? <input onChange={onChangeHandler}
+        ? <TextField onChange={onChangeHandler}
                  onBlur={noChangeText}
                  type="text"
                  value={text}
