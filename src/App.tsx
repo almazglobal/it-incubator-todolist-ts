@@ -33,6 +33,12 @@ export function App() {
         setTasks({...tasks, [id]: []})
     }
 
+    function addTask(taskTitle: string, todoListId: string) {
+        let newTask = {id: v1(), title: taskTitle, isDone: false}
+        let newTasks = [newTask, ...tasks[todoListId]]
+        setTasks({...tasks, [todoListId]: newTasks})
+    }
+
     function removeTask(id: string, todoListId: string) {
         let filteredTasks = tasks[todoListId].filter(item => item.id !== id)
         setTasks({...tasks, [todoListId]: filteredTasks})
@@ -44,7 +50,6 @@ export function App() {
             task.title = text
             setTodoLists([...todoLists])
         }
-
     }
 
     function changeTextTodoList(text: string, todoListId: string) {
@@ -53,13 +58,6 @@ export function App() {
             todoList.title = text
             setTodoLists([...todoLists])
         }
-
-    }
-
-    function addTask(taskTitle: string, todoListId: string) {
-        let newTask = {id: v1(), title: taskTitle, isDone: false}
-        let newTasks = [newTask, ...tasks[todoListId]]
-        setTasks({...tasks, [todoListId]: newTasks})
     }
 
     function onHandleFilter(valueFilter: ValueFilterType, todoListId: string) {
@@ -68,7 +66,6 @@ export function App() {
             todoList.filter = valueFilter
             setTodoLists([...todoLists])
         }
-
     }
 
     const [tasks, setTasks] = useState<TodoListsType>({
@@ -95,9 +92,7 @@ export function App() {
             task.isDone = valuChecked
             setTasks({...tasks})
         }
-
     }
-
 
     return (
         <div className="App">
