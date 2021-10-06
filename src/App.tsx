@@ -36,7 +36,8 @@ export function App() {
     function addTask(taskTitle: string, todoListId: string) {
         let newTask = {id: v1(), title: taskTitle, isDone: false}
         let newTasks = [newTask, ...tasks[todoListId]]
-        setTasks({...tasks, [todoListId]: newTasks})
+        let Tasks = {...tasks, [todoListId]: newTasks}
+        setTasks(Tasks)
     }
 
     function removeTask(id: string, todoListId: string) {
@@ -86,10 +87,10 @@ export function App() {
         delete tasks[todoListId]
         setTasks({...tasks})
     }
-    const onCheckedTask = (id: string, valuChecked: boolean, todoListId: string) => {
+    const onCheckedTask = (id: string, valueChecked: boolean, todoListId: string) => {
         const task = tasks[todoListId].find(item => item.id === id)
         if (task) {
-            task.isDone = valuChecked
+            task.isDone = valueChecked
             setTasks({...tasks})
         }
     }
