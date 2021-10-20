@@ -5,7 +5,6 @@ import {TaskType, TodoList} from "./TodoList";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
@@ -13,7 +12,6 @@ import {
     todolistsReducer
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTextTaskAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
-import {AppRootState} from "./state/store";
 
 export type ValueFilterType = 'all' | 'active' | 'completed'
 
@@ -27,44 +25,59 @@ export type TodoListsType = {
     [key: string]: TaskType[]
 }
 
-export function AppWithRedux() {
+export function AppWithReducers() {
+    const todoListId1 = v1()
+    const todoListId2 = v1()
 
-    const dispatch = useDispatch()
-    const todoLists = useSelector<AppRootState, TodoListType[]>(state => state.todolists)
-    const tasks = useSelector<AppRootState,  TodoListsType>(state => state.tasks)
+    const [todoLists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
+        {id: todoListId1, title: "What to learn", filter: 'all'},
+        {id: todoListId2, title: "What to buy", filter: 'all'},
+    ])
 
     const addItem = (title: string) => {
         const action = addTodolistAC(title)
-        dispatch(action)
+        dispatchToTodolistsReducer(action)
+        dispatchToTasksReducer(action)
     }
 
     function addTask(taskTitle: string, todoListId: string) {
-        dispatch(addTaskAC(taskTitle, todoListId))
+        dispatchToTasksReducer(addTaskAC(taskTitle, todoListId))
     }
 
     function removeTask(id: string, todoListId: string) {
-        dispatch(removeTaskAC(id, todoListId))
+        dispatchToTasksReducer(removeTaskAC(id, todoListId))
     }
 
     function changeText(text: string, todoListId: string, taskId: string) {
-        dispatch(changeTextTaskAC(text, taskId, todoListId))
+        dispatchToTasksReducer(changeTextTaskAC(text, taskId, todoListId))
     }
 
     function changeTextTodoList(text: string, todoListId: string) {
-        dispatch(changeTodolistTitleAC(text, todoListId))
+        dispatchToTodolistsReducer(changeTodolistTitleAC(text, todoListId))
 
     }
 
     function onHandleFilter(valueFilter: ValueFilterType, todoListId: string) {
-        dispatch(changeTodolistFilterAC(todoListId, valueFilter))
+        dispatchToTodolistsReducer(changeTodolistFilterAC(todoListId, valueFilter))
     }
 
-
+    const [tasks, dispatchToTasksReducer] = useReducer(tasksReducer, {
+        [todoListId1]: [
+            {id: v1(), title: "CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: false},
+            {id: v1(), title: "React", isDone: false},
+            {id: v1(), title: "Redux", isDone: true},
+        ],
+        [todoListId2]: [
+            {id: v1(), title: "Apples", isDone: false},
+            {id: v1(), title: "Banana", isDone: true},
+        ]
+    })
     const removeTaskHandler = (todoListId: string) => {
-        dispatch(removeTodolistAC(todoListId))
+        dispatchToTodolistsReducer(removeTodolistAC(todoListId))
     }
     const onCheckedTask = (id: string, valueChecked: boolean, todoListId: string) => {
-        dispatch(changeTaskStatusAC(id, valueChecked, todoListId))
+        dispatchToTasksReducer(changeTaskStatusAC(id, valueChecked,todoListId))
     }
 
     return (
@@ -74,7 +87,7 @@ export function AppWithRedux() {
                     <IconButton edge="start"
                                 color="inherit"
                                 aria-label="menu">
-                        <Menu/>
+                        <Menu />
                     </IconButton>
                     <Typography variant="h6">
                         News
@@ -84,7 +97,7 @@ export function AppWithRedux() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "10px"}}>
-                    <AddItemForm AddItem={addItem}/>
+                    <AddItemForm AddItem={addItem} />
                 </Grid>
                 <Grid container
                       spacing={3}>
