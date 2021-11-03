@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {ValueFilterType} from './App'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -25,8 +25,8 @@ type PropsType = {
     changeTextTodoList: (text: string, todoListId: string) => void
 }
 
-export function TodoList(props: PropsType) {
-
+export const TodoList = React.memo( (props: PropsType) => {
+    console.log('Todolist is called')
     const onAllClickHandler = () => props.onHandleFilter('all', props.id)
     const onActiveClickHandler = () => props.onHandleFilter('active', props.id)
     const onCompletedClickHandler = () => props.onHandleFilter('completed', props.id)
@@ -34,12 +34,21 @@ export function TodoList(props: PropsType) {
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>, id: string, todoListId: string) => {
         props.onCheckedTask(id, e.currentTarget.checked, todoListId)
     }
-    const AddItem = (title: string) => {
+    const AddItem = useCallback( (title: string) => {
         props.onHandlerAddTask(title, props.id)
-    }
+    }, [])
 
     const changeHandlerTextTodoList = (text: string) => {
         props.changeTextTodoList(text, props.id)
+    }
+
+    let taskTodoList = props.todo
+
+    if (props.valueFilter === 'completed') {
+        taskTodoList = props.todo.filter((item) => item.isDone)
+    }
+    if (props.valueFilter === 'active') {
+        taskTodoList = props.todo.filter((item) => !item.isDone)
     }
 
     return (
@@ -89,6 +98,6 @@ export function TodoList(props: PropsType) {
         </div>
 
     )
-}
+})
 
 

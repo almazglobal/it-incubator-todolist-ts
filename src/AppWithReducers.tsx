@@ -26,6 +26,7 @@ export type TodoListsType = {
 }
 
 export function AppWithReducers() {
+    console.log('App is called')
     const todoListId1 = v1()
     const todoListId2 = v1()
 
