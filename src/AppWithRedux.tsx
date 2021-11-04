@@ -87,9 +87,7 @@ export function AppWithRedux() {
                 <Grid container
                       spacing={3}>
                     {todoLists.map(todo => {
-
                         let taskTodoList = tasks[todo.id]
-
                         return (
                             <Grid item>
                                 <Paper style={{padding: "10px"}}>
