@@ -35,35 +35,35 @@ export function AppWithRedux() {
     const addItem = useCallback((title: string) => {
         const action = addTodolistAC(title)
         dispatch(action)
-    }, [])
+    }, [dispatch])
 
     const addTask = useCallback((taskTitle: string, todoListId: string) => {
         dispatch(addTaskAC(taskTitle, todoListId))
-    }, [])
+    }, [dispatch])
 
     const removeTask = useCallback( (id: string, todoListId: string) => {
         dispatch(removeTaskAC(id, todoListId))
-    },[])
+    },[dispatch])
 
     const changeText = useCallback((text: string, todoListId: string, taskId: string) => {
         dispatch(changeTextTaskAC(text, taskId, todoListId))
-    },[]);
+    },[dispatch]);
 
     const changeTextTodoList = useCallback((text: string, todoListId: string) => {
         dispatch(changeTodolistTitleAC(text, todoListId))
-    }, []);
+    }, [dispatch]);
 
     const onHandleFilter = useCallback((valueFilter: ValueFilterType, todoListId: string) => {
         dispatch(changeTodolistFilterAC(todoListId, valueFilter))
-    }, []);
+    }, [dispatch]);
 
     const removeTaskHandler = useCallback((todoListId: string) => {
         dispatch(removeTodolistAC(todoListId))
-    }, [])
+    }, [dispatch])
 
     const onCheckedTask = useCallback((id: string, valueChecked: boolean, todoListId: string) => {
         dispatch(changeTaskStatusAC(id, valueChecked, todoListId))
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -98,8 +98,8 @@ export function AppWithRedux() {
                                         id={todo.id}
                                         title={todo.title}
                                         todo={taskTodoList}
-                                        onHadleRemoveTask={removeTask}
-                                        onHandleFilter={onHandleFilter}
+                                        onHandlerRemoveTask={removeTask}
+                                        onHandlerFilter={onHandleFilter}
                                         onHandlerAddTask={addTask}
                                         onCheckedTask={onCheckedTask}
                                         valueFilter={todo.filter}

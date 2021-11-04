@@ -120,8 +120,8 @@ export function AppWithReducers() {
                                         id={todo.id}
                                         title={todo.title}
                                         todo={taskTodoList}
-                                        onHadleRemoveTask={removeTask}
-                                        onHandleFilter={onHandleFilter}
+                                        onHandlerRemoveTask={removeTask}
+                                        onHandlerFilter={onHandleFilter}
                                         onHandlerAddTask={addTask}
                                         onCheckedTask={onCheckedTask}
                                         valueFilter={todo.filter}

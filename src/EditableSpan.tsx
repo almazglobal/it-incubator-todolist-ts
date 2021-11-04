@@ -5,7 +5,8 @@ type EditableSpanPropsType = {
     title: string
     changeText: (text: string) => void
 }
-export const EditableSpan = (props: EditableSpanPropsType) => {
+export const EditableSpan = React.memo( (props: EditableSpanPropsType) => {
+    console.log('Editable is called')
     const [editable, setEditable] = useState(false)
     const [text, setText] = useState('')
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,4 +28,4 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
                  autoFocus />
         : <span onDoubleClick={changeTextActive}>{props.title}</span>
 
-}
+})

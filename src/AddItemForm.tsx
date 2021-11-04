@@ -32,7 +32,7 @@ export const AddItemForm = React.memo(  (props: AddItemFormPropsType) => {
         setError('')
     }
 
-    const onKeyPressHandlerNewTitile = (event: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressHandlerNewTitle = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             addTask()
             setTaskTitle('')
@@ -47,7 +47,7 @@ export const AddItemForm = React.memo(  (props: AddItemFormPropsType) => {
                        helperText={error}
                        value={taskTitle}
                        onChange={onNewTitleChangeHandler}
-                       onKeyPress={onKeyPressHandlerNewTitile}
+                       onKeyPress={onKeyPressHandlerNewTitle}
             />
             <IconButton onClick={addTask}
 
