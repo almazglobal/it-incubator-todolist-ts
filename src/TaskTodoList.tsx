@@ -18,6 +18,7 @@ export const TaskTodoList = React.memo((props: TaskTodoListPropsType) => {
     }
     const onRemoveHandler = useCallback(() => props.onHandlerRemoveTask(props.task.id, props.id), [props.onHandlerRemoveTask, props.task.id, props.id])
     const changeHandlerText = useCallback((text: string) => {
+        debugger
         props.changeText(text, props.id, props.task.id)
     }, [props.changeText, props.id, props.task.id])
 

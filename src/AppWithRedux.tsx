@@ -46,6 +46,7 @@ export function AppWithRedux() {
     },[dispatch])
 
     const changeText = useCallback((text: string, todoListId: string, taskId: string) => {
+        debugger
         dispatch(changeTextTaskAC(text, taskId, todoListId))
     },[dispatch]);
 
